@@ -2,4 +2,9 @@
 This repository contains a set of popular Deep Reinforcement Learning algorithms tested on OpenAI's Gym.
 
 ## Prerequisite
-These codes have been developed in Python3.5.2 on a Linux environment.
+### Language
+Python3.5.2
+### OpenAI Gym
+The installation instructions can be obtained [here.](https://github.com/openai/gym)
+### TensorFlow
+
