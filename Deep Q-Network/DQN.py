@@ -82,7 +82,7 @@ class DQN:
 
     def train(self):
         """
-            Train using Q-learning algorithm
+            Train using DQN algorithm
         """
         for ep in range(int(self.num_ep)):
             state = self.env.reset()
@@ -90,7 +90,7 @@ class DQN:
             tot_rew = 0
             done = False
             t = 0
-            # The Q-Table learning algorithm
+            # Iterate over timesteps
             while t < 1000:
                 t += 1
                 if self.render:
