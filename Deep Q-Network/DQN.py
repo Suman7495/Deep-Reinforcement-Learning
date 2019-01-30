@@ -103,8 +103,7 @@ class DQN:
                 # Store transition in memory
                 transition = deque((state, act, rew, next_state, done))
                 self.store_memory(transition)
-
-                # Update Q-Table
+  
                 tot_rew += rew
                 state = next_state
                 if done:
