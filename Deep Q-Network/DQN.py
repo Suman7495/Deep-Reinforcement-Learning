@@ -122,3 +122,4 @@ class DQN:
         avg_rew = sum(self.rew_list)/self.num_ep
         print ("Score over time: " + str(avg_rew))
         plt.plot(rew_list)
+        plt.show()
