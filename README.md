@@ -24,4 +24,4 @@ Here are some key resources to get started with Reinforcement Learning.
 
 ### Online Courses
 1. [RL Course by David Silver](https://www.youtube.com/watch?v=2pWv7GOvuf0)
-2. [Deep Reinforcement Learning UC Berkeley](http://rail.eecs.berkeley.edu/deeprlcourse/
+2. [Deep Reinforcement Learning UC Berkeley](http://rail.eecs.berkeley.edu/deeprlcourse/)
