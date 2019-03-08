@@ -25,10 +25,10 @@ class COPOS:
         self.rew_list = []
 
         # Build policy model
-        self.model = self.build_model()
+        self.model = self.policy()
 
 
-    def build_model(self):
+    def policy(self):
         """
             Neural Network Model of the COPOS agent
         """
@@ -42,9 +42,37 @@ class COPOS:
 
     def train(self):
         """
-            Train using COPOS algorithm
+            Train using DQN algorithm
         """
-        return
+        for ep in range(int(self.num_ep)):
+            state = self.env.reset()
+            state = np.reshape(state, [1, self.obs_dim])
+            tot_rew = 0
+            done = False
+            t = 0
+            # Iterate over timesteps
+            while t < 1000:
+                t += 1
+                if self.render:
+                    self.env.render()
+                act = self.pick_action(state)
+
+                # Get next state and reward from environment
+                next_state, rew, done, info = self.env.step(act)
+                next_state = np.reshape(next_state, [1, self.obs_dim])
+                # Store transition in memory
+                transition = deque((state, act, rew, next_state, done))
+                #self.store_memory(transition)
+                tot_rew += rew
+                state = next_state
+                if done:
+                    print("\nEpisode: {}/{}, score: {}"
+                          .format(ep, self.num_ep, t))
+                    break
+                if len(self.memory) > self.batch_size:
+                    self.replay()
+
+            self.rew_list.append(tot_rew)
 
     def print_results(self):
         """
