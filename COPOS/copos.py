@@ -75,6 +75,7 @@ class COPOS:
                     self.replay()
 
             self.rew_list.append(tot_rew)
+        print("Howdy")
 
     def print_results(self):
         """
