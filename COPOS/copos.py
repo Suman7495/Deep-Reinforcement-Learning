@@ -1,9 +1,11 @@
 import gym, gym.spaces
 import tensorflow as tf
+import tensorflow_probability as tfp
 import numpy as np
 import random
 import matplotlib.pyplot as plt
 from collections import deque
+
 
 class COPOS:
     def __init__(self, args, sess):
@@ -14,7 +16,7 @@ class COPOS:
         self.env = env
         self.obs_dim = self.env.observation_space.shape[0]
         self.act_dim = self.env.action_space.n
-        self.render = False
+        self.render = True
 
         # Hyperparameters
         self.lr = args.lr
@@ -25,22 +27,54 @@ class COPOS:
         self.rew_list = []
 
         # Build policy model
-        self.model = self.policy()
+        self.__init__placeholders()
+        self.build_policy()
 
-    def store_memory(self):
-        return
+    def __init__placeholders(self):
+        """
+            Define Tensorflow placeholders
+        """
+        self.obs = tf.placeholder(dtype=tf.float32, shape=[None, self.obs_dim], name='obs')
+        self.act = tf.placeholder(dtype=tf.float32, shape=[None, self.act_dim], name='act')
+        self.adv = tf.placeholder(dtype=tf.float32, shape=[None], name='adv')
+        self.old_std = tf.placeholder(dtype=tf.float32, shape=[None, self.act_dim], name='old_std')
+        self.old_mean = tf.placeholder(dtype=tf.float32, shape=[None, self.obs_dim], name='old_mean')
 
-    def policy(self):
+    def build_policy(self):
         """
             Neural Network Model of the COPOS agent
         """
-        return 5
+        # Create the neural network with output as mean
+        self.mean = [1., -1]
+        self.std = [1, 2.]
+        self.act_dist = tfp.distributions.MultivariateNormalDiag(self.mean, self.std)
 
-    def pick_action(self):
+    def pick_action(self, state):
         """
             Choose an action
         """
+        action = self.act_dist.sample()
         return 1
+
+    def store_memory(self, transition):
+        return
+
+    def loss(self):
+        """
+            Compute loss
+        """
+        # Log probabilities of new and old actions
+        old_act_dist = tfp.distributions.MultivariateNormalDiag(self.old_mean, self.old_std)
+        self.old_log_prob = tf.reduce_sum(old_act_dist.log_prob(self.act))
+        self.log_prob = tf.reduce_sum(self.act_dist.log_prob(self.act))
+        prob_ratio = tf.exp(self.log_prob - self.old_log_prob)
+
+        # Surrogate Loss
+        self.surrogate_loss = -tf.reduce_mean(prob_ratio*self.adv)
+
+        # Entropy
+        self.entropy = tf.reduce_mean(self.act_dist.entropy())
+
 
     def train(self):
         """
@@ -71,8 +105,6 @@ class COPOS:
                     print("\nEpisode: {}/{}, score: {}"
                           .format(ep, self.num_ep, t))
                     break
-                if len(self.memory) > self.batch_size:
-                    self.replay()
 
             self.rew_list.append(tot_rew)
         print("Howdy")
