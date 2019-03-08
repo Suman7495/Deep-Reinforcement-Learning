@@ -27,18 +27,20 @@ class COPOS:
         # Build policy model
         self.model = self.policy()
 
+    def store_memory(self):
+        return
 
     def policy(self):
         """
             Neural Network Model of the COPOS agent
         """
-        return
+        return 5
 
     def pick_action(self):
         """
             Choose an action
         """
-        return
+        return 1
 
     def train(self):
         """
@@ -62,7 +64,7 @@ class COPOS:
                 next_state = np.reshape(next_state, [1, self.obs_dim])
                 # Store transition in memory
                 transition = deque((state, act, rew, next_state, done))
-                #self.store_memory(transition)
+                self.store_memory(transition)
                 tot_rew += rew
                 state = next_state
                 if done:
