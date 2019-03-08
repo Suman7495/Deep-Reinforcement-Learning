@@ -1,5 +1,4 @@
 import argparse
-import gym, gym.spaces
 from copos import *
 import tensorflow as tf
 
@@ -13,7 +12,7 @@ def main():
     parser.add_argument('--env', type=str, default='CartPole-v0')
     parser.add_argument('--gamma', type=float, default=.995)
     parser.add_argument('--lr', type=float, default=0.001)
-
+    parser.add_argument('--num_ep', type=int, default=1000)
     args = parser.parse_args()
 
     with tf.Session() as sess:
