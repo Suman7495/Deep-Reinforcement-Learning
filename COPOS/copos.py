@@ -3,10 +3,12 @@ import tensorflow as tf
 import numpy as np
 import sys
 
-from .hyperameters import *
-from .solver import *
+#from common import *
+#from .hyperameters import *
+#from .solver import *
 
-def main(env_name='CartPole-v0, seed=1, run_name=None):
+
+def main(env_name="CartPole-v0", seed=1, run_name=None):
     """
         Main script to run training
     """
@@ -14,7 +16,7 @@ def main(env_name='CartPole-v0, seed=1, run_name=None):
     env = gym.make(env_name)
 
     # Initialize seeds
-    seed = init(seed)
+    seed = int(seed)
     np.random.seed(seed)
     tf.set_random_seed(seed)
     env.seed(seed)
@@ -23,10 +25,7 @@ def main(env_name='CartPole-v0, seed=1, run_name=None):
     # Finish this section
 
     # Initialize placeholders
-    obs_size = env.observation.space()
+    #obs_size = env.observation.space()
 
-if __name__ == '__main__'
-    if len(sys.argv) > 1:
-        main(sys.argv)
-    else
-        raise Exception('Missing Environment')
+if __name__ == '__main__':
+    main()
