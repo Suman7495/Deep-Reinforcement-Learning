@@ -1,31 +1,28 @@
 import gym, gym.spaces
 import tensorflow as tf
 import numpy as np
-import sys
-
-#from common import *
-#from .hyperameters import *
-#from .solver import *
+import random
+import matplotlib.pyplot as plt
 
 
-def main(env_name="CartPole-v0", seed=1, run_name=None):
-    """
-        Main script to run training
-    """
-    # Make gym environment
-    env = gym.make(env_name)
+class COPOS:
+    def __init__(self, args, sess):
+        """
+        Initialize COPOS agent class
+        """
+        env = gym.make(args.env)
+        self.env = env
+        self.obs_dim = self.env.observation_space.shape[0]
+        self.act_dim = self.env.action_space.n
 
-    # Initialize seeds
-    seed = int(seed)
-    np.random.seed(seed)
-    tf.set_random_seed(seed)
-    env.seed(seed)
+    def build_model(self):
+        return
 
-    # Configure Tensorflow
-    # Finish this section
+    def pick_action(self):
+        return
 
-    # Initialize placeholders
-    #obs_size = env.observation.space()
+    def train(self):
+        return
 
-if __name__ == '__main__':
-    main()
+    def print_results(self):
+        return
