@@ -8,7 +8,6 @@ def main():
         Main script
         Default environment: CartPole-v0
     """
-    print("Hello world")
     parser = argparse.ArgumentParser()
     parser.add_argument('--env', type=str, default='CartPole-v0')
     parser.add_argument('--gamma', type=float, default=.995)
@@ -23,5 +22,4 @@ def main():
         agent.print_results()
 
 if __name__ == '__main__':
-    print("Hello world")
     main()

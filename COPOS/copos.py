@@ -29,6 +29,8 @@ class COPOS:
         # Build policy model
         self.__init__placeholders()
         self.build_policy()
+        self.sess = sess
+        self.sess.run(tf.global_variables_initializer())
 
     def __init__placeholders(self):
         """
@@ -53,8 +55,8 @@ class COPOS:
         """
             Choose an action
         """
-        action = self.act_dist.sample()
-        return 1
+        action = self.act_dist.sample().eval()
+        return np.argmax(action)
 
     def store_memory(self, transition):
         return
@@ -74,7 +76,6 @@ class COPOS:
 
         # Entropy
         self.entropy = tf.reduce_mean(self.act_dist.entropy())
-
 
     def train(self):
         """
@@ -107,7 +108,7 @@ class COPOS:
                     break
 
             self.rew_list.append(tot_rew)
-        print("Howdy")
+            # Compute loss, yet to finish
 
     def print_results(self):
         """
