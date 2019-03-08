@@ -74,12 +74,15 @@ class COPOS:
         # Surrogate Loss
         self.surrogate_loss = -tf.reduce_mean(prob_ratio*self.adv)
 
+        # KL Divergence
+        self.kl = tfp.distributions.kl_divergence(self.act_dist, old_act_dist)
+
         # Entropy
         self.entropy = tf.reduce_mean(self.act_dist.entropy())
 
     def train(self):
         """
-            Train using DQN algorithm
+            Train using COPOS algorithm
         """
         for ep in range(int(self.num_ep)):
             state = self.env.reset()
