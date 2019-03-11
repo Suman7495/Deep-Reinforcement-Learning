@@ -13,6 +13,12 @@ git clone https://github.com/Suman7495/Deep-Reinforcement-Learning.git
 cd Deep-Reinforcement-Learning
 ```
 
+To run any of the algorithms, go to the specific directory and run:
+```
+python main.py
+```
+
+
 ## Resources for Reinforcement Learning
 Here are some key resources to get started with Reinforcement Learning.
 ### Books
