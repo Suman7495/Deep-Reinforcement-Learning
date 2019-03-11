@@ -3,18 +3,13 @@ This repository contains a set of popular Deep Reinforcement Learning algorithms
 
 Each folder corresponds to a particular algorithm which contains the required theoretical material to get started.
 
-## Required packages
-The following packages are required to successfully run the codes:
-
-Python3 (version used Python3.5.2)
-
-[OpenAI Gym](https://github.com/openai/gym)
-
-[Tensorflow](https://www.tensorflow.org/install/)
-
-[Numpy](https://scipy.org/install.html)
-
-[Matplotlib](https://matplotlib.org/users/installing.html)
+## Installation
+To install the packages locally, the following steps are suggested. 
+```
+conda create -n RL python=3
+source activate RL
+pip install -r requirements.txt
+```
 
 ## Resources for Reinforcement Learning
 Here are some key resources to get started with Reinforcement Learning.
