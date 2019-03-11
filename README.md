@@ -10,7 +10,7 @@ conda create -n RL python=3
 source activate RL
 pip install -r requirements.txt
 git clone https://github.com/Suman7495/Deep-Reinforcement-Learning.git
-cd
+cd Deep-Reinforcement-Learning
 ```
 
 ## Resources for Reinforcement Learning
