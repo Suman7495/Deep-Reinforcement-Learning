@@ -9,6 +9,8 @@ To install the packages locally, the following steps are suggested.
 conda create -n RL python=3
 source activate RL
 pip install -r requirements.txt
+git clone
+cd
 ```
 
 ## Resources for Reinforcement Learning
