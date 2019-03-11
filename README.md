@@ -17,7 +17,10 @@ To run any of the algorithms, go to the specific directory and run:
 ```
 python main.py
 ```
-
+Additionally, you can enter optional commands. For example:
+```
+python main.py --env 'CartPole-v0'
+```
 
 ## Resources for Reinforcement Learning
 Here are some key resources to get started with Reinforcement Learning.
