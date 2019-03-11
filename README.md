@@ -9,7 +9,7 @@ To install the packages locally, the following steps are suggested.
 conda create -n RL python=3
 source activate RL
 pip install -r requirements.txt
-git clone
+git clone https://github.com/Suman7495/Deep-Reinforcement-Learning.git
 cd
 ```
 
