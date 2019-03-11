@@ -5,6 +5,7 @@ import numpy as np
 import random
 import matplotlib.pyplot as plt
 from collections import deque
+from utils import *
 
 
 class COPOS:
@@ -82,36 +83,33 @@ class COPOS:
 
     def train(self):
         """
-            Train using COPOS algorithm
+            Train using COPOS algorithm -
         """
-        for ep in range(int(self.num_ep)):
-            state = self.env.reset()
-            state = np.reshape(state, [1, self.obs_dim])
-            tot_rew = 0
-            done = False
-            t = 0
-            # Iterate over timesteps
-            while t < 1000:
-                t += 1
-                if self.render:
-                    self.env.render()
-                act = self.pick_action(state)
 
-                # Get next state and reward from environment
-                next_state, rew, done, info = self.env.step(act)
-                next_state = np.reshape(next_state, [1, self.obs_dim])
-                # Store transition in memory
-                transition = deque((state, act, rew, next_state, done))
-                self.store_memory(transition)
-                tot_rew += rew
-                state = next_state
-                if done:
-                    print("\nEpisode: {}/{}, score: {}"
-                          .format(ep, self.num_ep, t))
-                    break
 
-            self.rew_list.append(tot_rew)
-            # Compute loss, yet to finish
+    def rollout(self, timestep_limit=1000):
+        """
+            Simulate the agent for fixed timesteps
+        """
+        data = deque(maxlen=timestep_limit)
+        obs = self.env.reset()
+        tot_rew = 0
+        done = False
+        for t in range(timestep_limit):
+            t += 1
+            if self.render and t % 50 == 0:
+                self.env.render()
+            action = self.pick_action(obs)
+            new_obs, rew, done, info = self.env.step(action)
+
+            # Store transition
+            transition = deque((obs, action, rew, new_obs, done))
+            data.append(transition)
+
+            if done:
+                print("Terminated after %s timesteps" % t)
+                return data
+            obs = new_obs
 
     def print_results(self):
         """
