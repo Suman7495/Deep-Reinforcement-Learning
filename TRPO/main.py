@@ -22,4 +22,4 @@ def main():
         agent.print_results()
 
 if __name__ == '__main__':
-main()
+    main()
