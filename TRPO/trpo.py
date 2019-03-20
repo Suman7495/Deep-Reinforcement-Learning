@@ -59,7 +59,7 @@ class TRPO:
         """
         # Create the neural network with the Softmax function as output layer
         output = MLP()
-        pi = SoftmaxPolicy(self.sess, output)
+        self.pi = SoftmaxPolicy(self.sess, output)
 
         # TODO: set action bounds
 
@@ -76,19 +76,10 @@ class TRPO:
             Compute loss
         """
         # Log probabilities of new and old actions
-        old_act_dist = tfp.distributions.MultivariateNormalDiag(self.old_mean, self.old_std)
-        self.old_log_probs = tf.reduce_sum(old_act_dist.log_prob(self.act))
-        self.log_prob = tf.reduce_sum(self.act_dist.log_prob(self.act))
-        prob_ratio = tf.exp(self.log_prob - self.old_log_probs)
+        prob_ratio = tf.exp(self.pi.log_prob - self.old_log_probs)
 
         # Surrogate Loss
         self.surrogate_loss = -tf.reduce_mean(prob_ratio*self.adv)
-
-        # KL Divergence
-        self.kl = tfp.distributions.kl_divergence(self.act_dist, old_act_dist)
-
-        # Entropy
-        self.entropy = tf.reduce_mean(self.act_dist.entropy())
 
     def _init_session(self):
             """Launch TensorFlow session and initialize variables"""

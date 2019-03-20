@@ -21,6 +21,7 @@ class DQN:
         self.act_dim = self.env.action_space.n
         self.render = False
         print(self.act_dim)
+
         # Hyperparameters
         self.lr = args.lr
         self.gamma = args.gamma
