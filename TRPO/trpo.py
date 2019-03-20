@@ -96,13 +96,6 @@ class TRPO:
             self.sess = tf.Session(graph=self.g)
             self.sess.run(self.init)
 
-    def pick_action(self, state):
-        """
-            Choose an action
-        """
-        action = self.act_dist.sample().eval()
-        return np.argmax(action)
-
     def train(self):
         """
             Train using TRPOP algorithm

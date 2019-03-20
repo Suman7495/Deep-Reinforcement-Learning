@@ -1,32 +1,14 @@
 import tensorflow as tf
 import numpy as np
-from keras.models import Sequential
-from keras.layers import Dense, Activation
-
-class MLP:
-    def __init__(self, sess, obs, act, scope='MLP'):
-        self.sess = sess
-        self.obs = obs
-        self.act = act
-        # TODO: Get obs and act dims
-        self.obs_dim = 5
-        self.act_dim = 5
-        self.name = 'discrete_policy'
-        scope = scope
-        self.nn_output = []
-        with tf.variable_scope(scope):
-            model = Sequential()
-            model.add(Dense(32, activation='tanh', input_dim=self.obs_dim))
-            model.add(Dense(32, activation='tanh'))
-            self.nn_output.append(model.add(Dense(self.act_dim, activation='tanh')))
-
-        self.vars = tf.trainable_variables(scope=scope)
+import tensorflow_probability as tfp
 
 class SoftmaxPolicy:
     def __init__(self, sess, input):
         self.sess = sess
         self.input = input
         # TODO: Complete the following
+        self.act_logits
+        self.act_dist = tfp.distributions.Categorical(logits=self.act_logits)
         self.ouput
 
         self.entropy
@@ -39,3 +21,12 @@ class SoftmaxPolicy:
     def get_log_prob(self):
 
     def get_entropy(self):
+
+class RandPolicy:
+    def __init__(self, act_dim, std=1.0, name='pi'):
+        self.act_dim = act_dim
+        self.std = std
+        self.name = name
+
+    def pick_action(self):
+        return np.squeeze(np.random.normal(loc=0.0, scale=self.std, size=self.act_dim))
