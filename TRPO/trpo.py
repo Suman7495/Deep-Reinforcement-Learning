@@ -55,12 +55,11 @@ class TRPO:
 
     def _build_policy(self):
         """
-            Neural Network Model of the TRPO agent
+            Build the policy
         """
-        # Create the neural network with output as mean
-        self.mean = [1., -1]
-        std_noise = 1e-2
-        self.std = tf.Variable(std_noise * tf.ones([1, act_size]), name='std')
+        # Create the neural network with the Softmax function as output layer
+        output = MLP()
+        pi = SoftmaxPolicy(self.sess, output)
 
         # TODO: set action bounds
 
@@ -100,31 +99,7 @@ class TRPO:
         """
             Train using TRPOP algorithm
         """
-        
 
-    def rollout(self, timestep_limit=1000):
-        """
-            Simulate the agent for fixed timesteps
-        """
-        data = deque(maxlen=timestep_limit)
-        obs = self.env.reset()
-        tot_rew = 0
-        done = False
-        for t in range(timestep_limit):
-            t += 1
-            if self.render and t % 50 == 0:
-                self.env.render()
-            action = self.pick_action(obs)
-            new_obs, rew, done, info = self.env.step(action)
-
-            # Store transition
-            transition = deque((obs, action, rew, new_obs, done))
-            data.append(transition)
-
-            if done:
-                print("Terminated after %s timesteps" % t)
-                return data
-            obs = new_obs
 
     def print_results(self):
         """

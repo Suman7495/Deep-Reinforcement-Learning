@@ -9,7 +9,7 @@ class MLP:
         self.sess = sess
         self.input = input
         self.output = output
-        # TODO: Get obs and act dims
+        # TODO: Get input and output dims
         self.in_dim = 5
         self.out_dim = 5
 

@@ -20,7 +20,7 @@ def linesearch(f, x, fullstep, expected_improve_rate, max_backtracks=10, accept_
 
 def cg(f_Ax, b, cg_iters=10, callback=None, verbose=False, residual_tol=1e-10):
     """
-    Demmel p 312
+        Demmel p 312
     """
     p = b.copy()
     r = b.copy()
@@ -55,3 +55,4 @@ def cg(f_Ax, b, cg_iters=10, callback=None, verbose=False, residual_tol=1e-10):
 def flatgrad(loss, var_list):
     grads = tf.gradients(loss, var_list)
     return tf.concat([tf.reshape(g, [-1]) for g in grads], axis=0)
+
