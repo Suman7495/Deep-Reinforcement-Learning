@@ -1,3 +1,4 @@
+import numpy as np
 
 def linesearch(f, x, fullstep, expected_improve_rate, max_backtracks=10, accept_ratio=.1):
     """
@@ -50,3 +51,7 @@ def cg(f_Ax, b, cg_iters=10, callback=None, verbose=False, residual_tol=1e-10):
         callback(x)
     if verbose: print(fmtstr % (i+1, rdotr, np.linalg.norm(x))) # pylint: disable=W0631
     return x
+
+def flatgrad(loss, var_list):
+    grads = tf.gradients(loss, var_list)
+    return tf.concat([tf.reshape(g, [-1]) for g in grads], axis=0)

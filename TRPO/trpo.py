@@ -5,8 +5,8 @@ import numpy as np
 import random
 import matplotlib.pyplot as plt
 from collections import deque
-from utils import *
-
+from .utils import *
+from common import *
 
 class TRPO:
     def __init__(self, args, sess):
@@ -23,6 +23,7 @@ class TRPO:
         self.lr = args.lr
         self.gamma = args.gamma
         self.num_ep = args.num_ep
+        self.cg_damping = args.cg_damping
 
         # Initialize empty reward list
         self.rew_list = []
@@ -37,6 +38,7 @@ class TRPO:
         with self.g.as_default():
             self._init_placeholders()
             self._build_policy()
+            self._build_value_function()
             self._loss()
             self.init = tf.global_variables_initializer()
 
@@ -46,23 +48,29 @@ class TRPO:
         """
         self.obs = tf.placeholder(dtype=tf.float32, shape=[None, self.obs_dim], name='obs')
         self.act = tf.placeholder(dtype=tf.float32, shape=[None, self.act_dim], name='act')
-        self.adv = tf.placeholder(dtype=tf.float32, shape=[None], name='adv')
+        self.adv = tf.placeholder(dtype=tf.float32, shape=[None, 1], name='adv')
+        self.old_log_probs = tf.placeholder(dtype=tf.float32, shape=[None, 1], name='old_log_probs')
         self.old_std = tf.placeholder(dtype=tf.float32, shape=[None, self.act_dim], name='old_std')
         self.old_mean = tf.placeholder(dtype=tf.float32, shape=[None, self.obs_dim], name='old_mean')
 
     def _build_policy(self):
         """
-            Neural Network Model of the COPOS agent
+            Neural Network Model of the TRPO agent
         """
         # Create the neural network with output as mean
         self.mean = [1., -1]
-        self.std = [1, 2.]
+        std_noise = 1e-2
+        self.std = tf.Variable(std_noise * tf.ones([1, act_size]), name='std')
+
+        # TODO: set action bounds
+
         self.act_dist = tfp.distributions.MultivariateNormalDiag(self.mean, self.std)
 
-    def build_value_function(self):
+    def _build_value_function(self):
         """
             Value function
         """
+
 
     def _loss_(self):
         """
@@ -70,9 +78,9 @@ class TRPO:
         """
         # Log probabilities of new and old actions
         old_act_dist = tfp.distributions.MultivariateNormalDiag(self.old_mean, self.old_std)
-        self.old_log_prob = tf.reduce_sum(old_act_dist.log_prob(self.act))
+        self.old_log_probs = tf.reduce_sum(old_act_dist.log_prob(self.act))
         self.log_prob = tf.reduce_sum(self.act_dist.log_prob(self.act))
-        prob_ratio = tf.exp(self.log_prob - self.old_log_prob)
+        prob_ratio = tf.exp(self.log_prob - self.old_log_probs)
 
         # Surrogate Loss
         self.surrogate_loss = -tf.reduce_mean(prob_ratio*self.adv)
@@ -97,7 +105,7 @@ class TRPO:
 
     def train(self):
         """
-            Train using COPOS algorithm -
+            Train using TRPOP algorithm
         """
         
 
