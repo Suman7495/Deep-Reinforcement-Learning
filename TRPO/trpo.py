@@ -28,12 +28,19 @@ class TRPO:
         self.rew_list = []
 
         # Build policy model
-        self.__init__placeholders()
-        self.build_policy()
-        self.sess = sess
-        self.sess.run(tf.global_variables_initializer())
+        self._build_graph()
+        self._init_session()
 
-    def __init__placeholders(self):
+    def _build_graph(self):
+        """Build Tensorflow graph"""
+        self.g = tf.Graph()
+        with self.g.as_default():
+            self._init_placeholders()
+            self._build_policy()
+            self._loss()
+            self.init = tf.global_variables_initializer()
+
+    def _init_placeholders(self):
         """
             Define Tensorflow placeholders
         """
@@ -43,7 +50,7 @@ class TRPO:
         self.old_std = tf.placeholder(dtype=tf.float32, shape=[None, self.act_dim], name='old_std')
         self.old_mean = tf.placeholder(dtype=tf.float32, shape=[None, self.obs_dim], name='old_mean')
 
-    def build_policy(self):
+    def _build_policy(self):
         """
             Neural Network Model of the COPOS agent
         """
@@ -52,17 +59,12 @@ class TRPO:
         self.std = [1, 2.]
         self.act_dist = tfp.distributions.MultivariateNormalDiag(self.mean, self.std)
 
-    def pick_action(self, state):
+    def build_value_function(self):
         """
-            Choose an action
+            Value function
         """
-        action = self.act_dist.sample().eval()
-        return np.argmax(action)
 
-    def store_memory(self, transition):
-        return
-
-    def loss(self):
+    def _loss_(self):
         """
             Compute loss
         """
@@ -81,11 +83,23 @@ class TRPO:
         # Entropy
         self.entropy = tf.reduce_mean(self.act_dist.entropy())
 
+    def _init_session(self):
+            """Launch TensorFlow session and initialize variables"""
+            self.sess = tf.Session(graph=self.g)
+            self.sess.run(self.init)
+
+    def pick_action(self, state):
+        """
+            Choose an action
+        """
+        action = self.act_dist.sample().eval()
+        return np.argmax(action)
+
     def train(self):
         """
             Train using COPOS algorithm -
         """
-
+        
 
     def rollout(self, timestep_limit=1000):
         """
