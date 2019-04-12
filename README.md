@@ -1,3 +1,5 @@
+### Deprecated. Please see [RL-botics.](https://github.com/Suman7495/rl-botics)
+
 # Overview
 This repository contains a set of popular Deep Reinforcement Learning algorithms tested on OpenAI's Gym. The objective was to have simple and clear implementations.
 
@@ -8,7 +10,6 @@ To install the packages locally, the following steps are suggested.
 ```
 conda create -n RL python=3
 source activate RL
-pip install -r requirements.txt
 git clone https://github.com/Suman7495/Deep-Reinforcement-Learning.git
 cd Deep-Reinforcement-Learning
 ```
