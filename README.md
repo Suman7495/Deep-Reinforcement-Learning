@@ -1,4 +1,5 @@
-### Deprecated. Please see [RL-botics.](https://github.com/Suman7495/rl-botics)
+## Deprecated. Please see [RL-botics.](https://github.com/Suman7495/rl-botics)
+
 
 # Overview
 This repository contains a set of popular Deep Reinforcement Learning algorithms tested on OpenAI's Gym. The objective was to have simple and clear implementations.
